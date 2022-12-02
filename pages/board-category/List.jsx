@@ -37,9 +37,7 @@ const List = (props) => {
                             </div>
                         </div>
                     </button>
-                    <br />
                 </Link>
-
             ))}
         </>
     )
