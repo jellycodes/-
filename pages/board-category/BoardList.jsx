@@ -23,13 +23,13 @@ const BoardList = () => {
     <table className='mx-auto my-20 border-2 border-separate rounded-lg shadow-2xl border-spacing-6 border-neutral-300'>
       <List boards = {boards}/>
       <thead>
-        <div className='flex space-x-32'>
+        {/* <div className='flex space-x-32'>
           <div className='p-3 text-2xl font-bold border-2 text-neutral-800 rounded-xl'>번호</div>
           <div className='p-3 text-2xl font-bold border-2 text-neutral-800 rounded-xl'>제목</div>
           <div className='p-3 text-2xl font-bold border-2 text-neutral-800 rounded-xl'>내용</div>
-        </div>
+        </div> */}
       </thead>
-      <Link href="/WriteBoard" className="float-right px-5 py-2 font-bold border-2 rounded-lg text-neutral-900 hover:bg-neutral-200">글쓰기</Link>
+      <Link href="/board-category/WriteBoard" className="float-right px-5 py-2 font-bold border-2 rounded-lg text-neutral-900 hover:bg-neutral-200">글쓰기</Link>
     </table>
   )
 }

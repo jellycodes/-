@@ -12,7 +12,7 @@ const List = (props) => {
         <>
             {boards && boards.map(board => (
 
-                <Link href="/ModifyBoard" >
+                <Link href="/board-category/ModifyBoard" >
                     <button onClick={() => {
                         SetCurBoard(board.id);
                     }} >
