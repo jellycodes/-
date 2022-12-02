@@ -9,14 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.4",
-    "@heroicons/react": "^2.0.13",
     "@tailwindcss/forms": "^0.5.3",
+    "axios": "^1.2.0",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.5",
-    "next": "13.0.5",
     "formik": "^2.2.9",
     "jotai": "^1.8.4",
+    "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },

@@ -41,11 +41,11 @@ const Navbar = () => {
           <div className="hidden sm:ml-6 sm:block">
             <div className="flex space-x-4">
               {/* <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" --> */}
-              <Link href="#" className="text-gray-300 hover:bg-pink-300 hover:text-white hover:font-extrabold px-3 py-2 rounded-md text-sm font-semibold">직업</Link>
-              <Link href="#" className="text-gray-300 hover:bg-pink-300 hover:text-white hover:font-extrabold px-3 py-2 rounded-md text-sm font-semibold">대인관계</Link>
-              <Link href="#" className="text-gray-300 hover:bg-pink-300 hover:text-white hover:font-extrabold px-3 py-2 rounded-md text-sm font-semibold">가족</Link>
-              <Link href="#" className="text-gray-300 hover:bg-pink-300 hover:text-white hover:font-extrabold px-3 py-2 rounded-md text-sm font-semibold">연애</Link>
-              <Link href="#" className="text-gray-300 hover:bg-pink-300 hover:text-white hover:font-extrabold px-3 py-2 rounded-md text-sm font-semibold">잡담</Link>
+              <Link href="/Board" className="text-gray-300 hover:bg-pink-300 hover:text-white hover:font-extrabold px-3 py-2 rounded-md text-sm font-semibold">직업</Link>
+              <Link href="/board" className="text-gray-300 hover:bg-pink-300 hover:text-white hover:font-extrabold px-3 py-2 rounded-md text-sm font-semibold">대인관계</Link>
+              <Link href="/board" className="text-gray-300 hover:bg-pink-300 hover:text-white hover:font-extrabold px-3 py-2 rounded-md text-sm font-semibold">가족</Link>
+              <Link href="/board" className="text-gray-300 hover:bg-pink-300 hover:text-white hover:font-extrabold px-3 py-2 rounded-md text-sm font-semibold">연애</Link>
+              <Link href="/board" className="text-gray-300 hover:bg-pink-300 hover:text-white hover:font-extrabold px-3 py-2 rounded-md text-sm font-semibold">잡담</Link>
             </div>
           </div>
         </div>
@@ -85,11 +85,11 @@ const Navbar = () => {
 
   <div className="sm:hidden" id="mobile-menu">
     <div className="space-y-1 px-2 pt-2 pb-3">
-    <Link href="#" className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">직업</Link>
-    <Link href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">대인관계</Link>
-    <Link href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">가족</Link>
-    <Link href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">연애</Link>
-    <Link href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">잡담</Link>
+    <Link href="/board" className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">직업</Link>
+    <Link href="/board" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">대인관계</Link>
+    <Link href="/board" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">가족</Link>
+    <Link href="/board" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">연애</Link>
+    <Link href="/board" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">잡담</Link>
     </div>
   </div>
 </nav >
