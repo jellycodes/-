@@ -64,7 +64,7 @@ const ModifyBoard = () => {
                 console.log(data);
                 setId(data.id);
                 setTitle(data.title);
-                setContent(data.body);
+                setBody(data.body);
             })
             .catch(error => console.error(error))
     }, [])
@@ -78,22 +78,23 @@ const ModifyBoard = () => {
                         <div className="overflow-hidden">
                             <table className='mx-auto my-20 border-2 border-separate rounded-lg shadow-2xl border-spacing-6 border-neutral-300'>
                                 <thead>
-                                    <tr className="px-6 py-2 text-xs text-gray-900"><th className='p-3 text-lg text-center text-neutral-800'>번호</th>
-                                        <input type="text" readOnly value={id} onChange={(event) => setId(event.target.value)} className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2" /></tr>
-
-                                    <tr className="px-40 text-xs text-gray-900"><th className='p-3 text-lg text-center text-neutral-800'>제목</th>
-                                        <input type="text" value={title} placeholder="제목을 입력하세요" onChange={(event) => setTitle(event.target.value)} className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2" /></tr>
-
-                                    <tr className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2"><th className='p-3 text-lg text-center text-neutral-800'>내용</th>
-                                        <textarea type="text" value={body} placeholder="내용을 입력하세요" onChange={event => setContent(event.target.value)} className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2" /></tr>
+                                    <tr className="px-6 py-2 text-xs text-gray-900">
+                                        <input type="text" readOnly value={id} onChange={(event) => setId(event.target.value)} className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2" />
+                                    </tr>
+                                    <tr className="px-40 text-xs text-gray-900">
+                                        <input type="text" value={title} placeholder="제목을 입력하세요" onChange={(event) => setTitle(event.target.value)} className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2" />
+                                    </tr>
+                                    <tr className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2">
+                                        <textarea type="text" value={body} placeholder="내용을 입력하세요" onChange={event => setBody(event.target.value)} className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2" />
+                                    </tr>
                                 </thead>
-                                    <Link href='/BoardList'>
-                                    수정{/* <button type='modify' onClick={handleModify} className='px-5 py-2 mx-3 font-bold border-2 rounded-lg text-neutral-900 hover:bg-neutral-200 '>수정</button> */}
-                                    </Link>
-                                    <Link href='/BoardList'>
-                                    삭제{/* <button type='delete' onClick={handleDelete} className='px-5 py-2 m-3 font-bold border-2 rounded-lg text-neutral-900 hover:bg-neutral-200'>삭제</button> */}
-                                    </Link>
                             </table>
+                            <Link href='/board-category/BoardList'>
+                                <button type='modify' onClick={handleModify} className='px-5 py-2 mx-3 font-bold border-2 rounded-lg text-neutral-900 hover:bg-neutral-200 '>수정</button>
+                            </Link>
+                            <Link href='/board-category/BoardList'>
+                                <button type='delete' onClick={handleDelete} className='px-5 py-2 m-3 font-bold border-2 rounded-lg text-neutral-900 hover:bg-neutral-200'>삭제</button>
+                            </Link>
                         </div>
                     </div>
                 </div>

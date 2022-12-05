@@ -9,28 +9,31 @@ const BoardList = () => {
   useEffect(() => {
     axios
       .get('https://jsonplaceholder.typicode.com/posts')
-      // http://localhost:8090/boards
       .then((response) => {
         setBoards(response.data)
       }).catch(error => {
         console.error(error)
       })
 
-      console.log(boards);
+    console.log(boards);
   }, []);
 
   return (
-    <table className='mx-auto my-20 border-2 border-separate rounded-lg shadow-2xl border-spacing-6 border-neutral-300'>
-      <List boards = {boards}/>
-      <thead>
-        <div className='flex space-x-32'>
-          <div className='p-3 text-2xl font-bold border-2 text-neutral-800 rounded-xl'>번호</div>
-          <div className='p-3 text-2xl font-bold border-2 text-neutral-800 rounded-xl'>제목</div>
-          <div className='p-3 text-2xl font-bold border-2 text-neutral-800 rounded-xl'>내용</div>
-        </div>
-      </thead>
-      <Link href="/WriteBoard" className="float-right px-5 py-2 font-bold border-2 rounded-lg text-neutral-900 hover:bg-neutral-200">글쓰기</Link>
-    </table>
+    <>
+      <div className='grid place-items-center text-xl text-white'>
+        <table className='table-auto m-5 border-neutral-300'>
+          <List boards={boards} />
+          <thead>
+            <tr className='flex space-x-32'>
+              <th className='px-6 py-3 text-xl text-gray-500'>번호</th>
+              <th className='px-40 py-3 text-xl text-gray-500 '>제목</th>
+              <th className='px-6 py-2 text-xl text-gray-500'>내용</th>
+            </tr>
+          </thead>
+          <Link href="/board-category/WriteBoard" className="float-right px-5 py-2 font-bold border-2 rounded-lg text-neutral-900 hover:bg-neutral-200">글쓰기</Link>
+        </table>
+      </div>
+    </>
   )
 }
 export default BoardList

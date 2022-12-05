@@ -39,7 +39,7 @@ const WriteBoard = () => {
         console.log(data);
         setId(data.id);
         setTitle(data.title);
-        setContent(data.body);
+        setBody(data.body);
       })
       .catch(error => console.error(error))
   }, [])
@@ -52,8 +52,8 @@ const WriteBoard = () => {
           <tr className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2"><th className='p-3 text-lg text-center text-neutral-800'>제목</th>
             <input type="text" value={title} placeholder="제목을 입력하세요" onChange={(event) => setTitle(event.target.value)} className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2" /></tr>
           <tr className="py-4 text-sm font-medium text-left text-gray-900 border-2px-6"><th className='p-3 text-lg text-center text-neutral-800'>내용</th>
-            <textarea type="text" value={body} placeholder="내용을 입력하세요" onChange={event => setContent(event.target.value) } className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2" /></tr>
-      <Link href='/BoardList'>
+            <textarea type="text" value={body} placeholder="내용을 입력하세요" onChange={event => setBody(event.target.value) } className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2" /></tr>
+      <Link href='/board-category/BoardList'>
         <button type='create' onClick={handleCreate} className='float-right px-5 py-2 font-bold border-2 rounded-lg text-neutral-900 hover:bg-neutral-200'>작성</button>
       </Link>
         </thead>
