@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "proxy": "http://localhost:3040",
   "dependencies": {
     "@tailwindcss/forms": "^0.5.3",
     "axios": "^1.2.0",
