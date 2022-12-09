@@ -14,7 +14,7 @@ const BoardDetail = () => {
         const data = {
             id,
             title,
-            body, 네네
+            body,
         }
         console.log(data);
         console.log(curBoard);
