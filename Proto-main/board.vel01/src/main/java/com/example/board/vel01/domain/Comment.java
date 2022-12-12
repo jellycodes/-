@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Builder
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -36,30 +37,37 @@ public class Comment {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
 	private Long commentId; // 댓글 고유 번호
 	
 	@Column
-	@NotNull
 	private String nickName;
 	
 	@Column
 	private String content; // 내용
 	
 	@Column
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long PostSeq; // 게시글 번호
+	private Long postSeq; // 게시글 번호
 	
 	@Column
 	private String createdDate;  // 댓글 작성날짜
 	
-	@ManyToOne
-	@JoinColumn(name = "post_id")
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_Id")
+	private User user;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "post_Id")
 	private Post post;
 	
 	public void setPost(Post post) {
 		this.post = post;
 		post.getComments().add(this);
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+		user.getComments().add(this);
 	}
 	
 	
@@ -70,19 +78,21 @@ public class Comment {
 	@NoArgsConstructor @AllArgsConstructor
 	public static class Request{
 		
-		private Long id; // db의 id와 맞추기 위한 용도의 id
+		private Long commentId; // db의 id와 맞추기 위한 용도의 id
 		
-		@NotBlank(message = "닉네임 공백 불가")
-		@NotNull(message = "닉네임 null 불가")
 		private String nickName;
 		
 		@NotBlank(message = "글 내용 공백 불가")
 		@NotNull(message = "글 내용 null 불가")
 		private String content;
 		
+		private Long postSeq;
+		
+		
 		public static Comment toEntity(Comment.Request req) {
 			return Comment.builder()
-					.nickName(req.getNickName())
+					.commentId(req.getCommentId())
+					.postSeq(req.getPostSeq())
 					.content(req.getContent())
 					.build();
 		}
@@ -98,7 +108,7 @@ public class Comment {
 		private Long commentId;
 		private String nickName;
 		private String content;
-		private Long PostSeq;
+		private Long postSeq;
 		private String createdDate;
 		
 		public static Comment.Response toResponse(Comment comment){
@@ -106,7 +116,7 @@ public class Comment {
 					.commentId(comment.getCommentId())
 					.nickName(comment.getNickName())
 					.content(comment.getContent())
-					.PostSeq(comment.getPostSeq())
+					.postSeq(comment.getPostSeq())
 					.createdDate(comment.getCreatedDate())
 					.build();
 		}

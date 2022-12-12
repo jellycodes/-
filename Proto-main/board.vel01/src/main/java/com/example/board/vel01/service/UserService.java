@@ -7,8 +7,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -33,14 +36,32 @@ public class UserService{
     		log.warn("닉네임이 이미 존재합니다.");
     		throw new RuntimeException("닉네임이 이미 존재합니다.");
     	}
+    	newUser.setJoinDate(new SimpleDateFormat("yyyy/MM/dd").format(new Date()));
         return userRepository.save(newUser);
     }
 
-    public User loginUser(User.Request request) {
-        return userRepository.findByNickName(request.getNickName());
-    }
 
     public List<User> findAllUser() {
         return userRepository.findAll();
     }
+    
+    public User findUser(String nickName) {
+    	return userRepository.findByNickName(nickName);
+    }
+    
+    
+    public User loginUser(User.Request request) {
+    	return userRepository.findByNickName(request.getNickName());
+    }
+    
+    public User getByCredentials(final String nickName, final String pwd, final PasswordEncoder encoder) {
+		final User originalUser = userRepository.findByNickName(nickName);
+		
+		// matches 메서드를 이용해 패스워드가 같은지 확인
+		if(originalUser != null && encoder.matches(pwd, originalUser.getPwd())) {
+			return originalUser;
+		}
+		return null;
+		
+	}
 }

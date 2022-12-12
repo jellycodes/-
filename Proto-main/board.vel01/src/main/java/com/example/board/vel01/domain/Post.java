@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 @Builder
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -28,11 +28,9 @@ public class Post {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "post_id")
     private Long postId;
 	
 	@Column
-	@NotNull
     private String nickName;
 	
 	@Column
@@ -52,12 +50,12 @@ public class Post {
 	@Column
 	private String err;
 	
-	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_Id")
 	private User user;
 	
 	@OneToMany(mappedBy = "post")
-	private List<Comment> comments = new ArrayList<Comment>();
+	private List<Comment> comments;
 	
 	public void setUser(User user) {
 		this.user = user;
@@ -71,8 +69,10 @@ public class Post {
 	@AllArgsConstructor
     public static class Request{
     	
+    	private Long postId;
+    	
         private String nickName;
-        
+    	
         @NotNull(message = "게시글 제목은 null 금지")
         @NotBlank(message = "게시글 제목은 공백 금지")
         private String title;
@@ -81,19 +81,14 @@ public class Post {
         @NotBlank(message = "게시글 내용은 공백 금지")
         private String content;
         
-        private String comment;
-        
-        public Request(final Post postEntity) {
-        	this.nickName = postEntity.getNickName();
-        	this.title = postEntity.getTitle();
-        	this.content = postEntity.getContent();
-        }
+        private Long viewCount;
     	
     	public static Post toEntity(Post.Request req) {
     		return Post.builder()
-    				.nickName(req.getNickName())
+    				.postId(req.getPostId())
     				.title(req.getTitle())
     				.content(req.getContent())
+    				.viewCount(req.getViewCount())
     				.build();
     	}
     }
@@ -110,6 +105,7 @@ public class Post {
         private String title;
         private String content;
         private String createdDate;
+        private List<Comment.Response> comments;
         private Long viewCount;
         private String err;
         
@@ -121,6 +117,7 @@ public class Post {
     				.nickName(postEntity.getNickName())
     				.title(postEntity.getTitle())
     				.content(postEntity.getContent())
+    				.comments(Comment.Response.toResponseList(postEntity.getComments()))
     				.createdDate(postEntity.getCreatedDate())
     				.viewCount(postEntity.getViewCount())
     				.build();

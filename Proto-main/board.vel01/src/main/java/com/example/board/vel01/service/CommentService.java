@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.board.vel01.domain.Comment;
 import com.example.board.vel01.domain.Post;
 import com.example.board.vel01.repository.CommentRepository;
+import com.example.board.vel01.repository.PostRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,8 @@ public class CommentService {
 	
 	private final CommentRepository commentRepository;
 	
+	private final PostRepository postRepository;
+	
 	// 댓글 작성 = C 
 	public void saveComment(Comment comment) {
 		commentRepository.save(comment);
@@ -29,21 +32,18 @@ public class CommentService {
 	
 	
 	// 댓글 전체 조회 = R 
-	public List<Comment> retrieveCommentList() {
-		List<Comment> comments = commentRepository.findAll();
+	public List<Comment> retrieveCommentList(long postId) {
+		Post getPost = postRepository.findByPostId(postId);
+//		List<Comment> comments = commentRepository.findAll();
+		List<Comment> comments = getPost.getComments();
 		return comments;
 	}
 	
 	// 댓글 수정 = U
-	public Comment updateComment(Comment.Request req, Long commentId){
+	public Comment updateComment(Comment.Request req){
 		Comment commentEntity = Comment.Request.toEntity(req);
 		validation(commentEntity);
-		Optional<Comment> findComment = commentRepository.findById(commentId);
-		
-//		Comment getComment = findComment.get();
-//		getComment.setContent(req.getContent());
-//		getComment.setCreatedDate(new SimpleDateFormat("yyyy/MM/dd").format(new Date()));
-//		commentRepository.save(getComment);
+		Optional<Comment> findComment = commentRepository.findById(req.getCommentId());
 		
 		findComment.ifPresent(comment->{
 			comment.setContent(req.getContent());
@@ -55,9 +55,9 @@ public class CommentService {
 	}
 	
 	// 댓글 삭제 = D
-	public List<Comment> deleteComment(Long commentId){
-		Comment comment = commentRepository.findByCommentId(commentId);
-		commentRepository.delete(comment);
+	public List<Comment> deleteComment(final Comment comment){
+//		Comment comment = commentRepository.findByCommentId(commentId);
+		commentRepository.deleteByCommentId(comment.getCommentId());
 		List<Comment> comments = commentRepository.findAll();
 		
 		return comments;

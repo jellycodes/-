@@ -2,6 +2,8 @@ package com.example.board.vel01.domain;
 
 import io.jsonwebtoken.Claims;
 import lombok.*;
+
+import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.lang.Nullable;
 
@@ -14,15 +16,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@Getter @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Getter @Setter
-@Builder
-@Table(name = "user_info")
 @ToString
+@Table(name = "user_info")
 public class User {
-    @Id
+	@Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
@@ -38,8 +40,14 @@ public class User {
 
     private String token;
     
+    @Column(name = "join_date")
+    private String joinDate;
+    
     @OneToMany(mappedBy = "user")
-    private List<Post> posts = new ArrayList<Post>();
+    private List<Post> posts;
+    
+    @OneToMany(mappedBy = "user")
+    public List<Comment> comments;
 
     @Setter
     @Getter
@@ -49,6 +57,8 @@ public class User {
     @ToString
     public static class Request {
     	
+    	private String id;
+    	
     	@NotBlank(message = "공백 허용하지 않음")
         @NotNull(message = "null 허용하지 않음")
         private String nickName;
@@ -56,11 +66,16 @@ public class User {
     	@NotBlank(message = "공백 허용하지 않음")
         @NotNull(message = "null 허용하지 않음")
         private String pwd;
+    	
+    	private Post post;
 
         public static User toEntity(final Request request) {
             return User.builder()
+            		.id(request.getId())
                     .nickName(request.getNickName())
                     .pwd(request.getPwd())
+                    .posts(new ArrayList<>())
+                    .comments(new ArrayList<>())
                     .build();
         }
     }
@@ -74,6 +89,9 @@ public class User {
     public static class Response {
         private String id;
         private String nickName;
+        private String joinDate;
+        private List<Post.Response> posts;
+        private List<Comment.Response> comments;
         private String token;
 
 
@@ -81,7 +99,11 @@ public class User {
             return User.Response.builder()
                     .id(user.getId())
                     .nickName(user.getNickName())
+                    .joinDate(user.getJoinDate())
+                    .posts(Post.Response.toResponseList(user.getPosts()))
+                    .comments(Comment.Response.toResponseList(user.getComments()))
                     .token(user.getToken())
+                    
                     .build();
         }
         public static List<Response> toResponseList(final List<User> users) {

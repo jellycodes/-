@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.csrf().disable()
 		.httpBasic().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().authorizeRequests().antMatchers("/", "/user/**" , "/post/**", "/comment/**").permitAll()
+		.and().authorizeRequests().antMatchers("/", "/p/**", "/user/**" , "/post/**", "/comment/**").permitAll()
 		.anyRequest()
 		.authenticated();
 		

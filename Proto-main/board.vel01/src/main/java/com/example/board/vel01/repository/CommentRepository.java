@@ -8,6 +8,7 @@ import com.example.board.vel01.domain.Comment;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 	
-	Comment findByCommentId(Long id);
+	Comment findByCommentId(Long commentId);
 	
+	void deleteByCommentId(Long commentId);
 }
