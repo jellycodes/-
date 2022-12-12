@@ -20,62 +20,73 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class CommentService {
-	
+
 	private final CommentRepository commentRepository;
-	
+
 	private final PostRepository postRepository;
-	
-	// 댓글 작성 = C 
+
+	// 댓글 작성 = C
 	public void saveComment(Comment comment) {
+		
 		commentRepository.save(comment);
+		
 	}
-	
-	
-	// 댓글 전체 조회 = R 
+
+	// 댓글 전체 조회 = R
 	public List<Comment> retrieveCommentList(long postId) {
+		
 		Post getPost = postRepository.findByPostId(postId);
-//		List<Comment> comments = commentRepository.findAll();
+		
 		List<Comment> comments = getPost.getComments();
+		
 		return comments;
 	}
-	
+
 	// 댓글 수정 = U
-	public Comment updateComment(Comment.Request req){
-		Comment commentEntity = Comment.Request.toEntity(req);
-		validation(commentEntity);
-		Optional<Comment> findComment = commentRepository.findById(req.getCommentId());
+	public Comment updateComment(Comment.Request req) {
 		
-		findComment.ifPresent(comment->{
+		Comment commentEntity = Comment.Request.toEntity(req);
+		
+		validation(commentEntity);
+		
+		Optional<Comment> findComment = commentRepository.findById(req.getCommentId());
+
+		findComment.ifPresent(comment -> {
 			comment.setContent(req.getContent());
 			comment.setCreatedDate(new SimpleDateFormat("yyyy/MM/dd").format(new Date()));
 			commentRepository.save(comment);
-		});	
+		});
+		
 		Comment updateComment = findComment.get();
+		
 		return updateComment;
 	}
-	
+
 	// 댓글 삭제 = D
-	public List<Comment> deleteComment(final Comment comment){
-//		Comment comment = commentRepository.findByCommentId(commentId);
-		commentRepository.deleteByCommentId(comment.getCommentId());
-		List<Comment> comments = commentRepository.findAll();
+	public List<Comment> deleteComment(final Comment comment) {
 		
+		commentRepository.deleteByCommentId(comment.getCommentId());
+		
+		List<Comment> comments = commentRepository.findAll();
+
 		return comments;
 	}
-	
+
 	private void validation(final Comment commentEntity) {
-		if(commentEntity == null) {
-			log.warn("commentEntity cannat be null");
-		throw new RuntimeException("commentEntity는 null 허용 불가");	
-		}
 		
-		if(commentEntity.getContent() == null) {
+		if (commentEntity == null) {
+			
+			log.warn("commentEntity cannat be null");
+			
+			throw new RuntimeException("commentEntity는 null 허용 불가");
+		}
+
+		if (commentEntity.getContent() == null) {
+			
 			log.warn("Conntent == null");
-		throw new RuntimeException("내용을 입력해주세요.");
+			
+			throw new RuntimeException("내용을 입력해주세요.");
 		}
 	};
-	
-	
-	
-	
+
 }

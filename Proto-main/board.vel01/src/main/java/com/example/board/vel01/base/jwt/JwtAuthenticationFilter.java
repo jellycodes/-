@@ -22,8 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class JwtAuthenticationFilter extends OncePerRequestFilter{
-	
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
 	@Autowired
 	private JwtTokenProvider tokenProvider;
 
@@ -33,32 +33,30 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 		try {
 			String token = parseBearerToken(request);
 			log.info("Filter is running...");
-			if(token != null && !token.equalsIgnoreCase("null")) {
+			if (token != null && !token.equalsIgnoreCase("null")) {
 				String nickName = tokenProvider.validateAndGetUserNickName(token);
 				log.info("Authenticated user nickName: " + nickName);
-				AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(nickName, null, AuthorityUtils.NO_AUTHORITIES);
+				AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(nickName, null,
+						AuthorityUtils.NO_AUTHORITIES);
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
 				securityContext.setAuthentication(authentication);
 				SecurityContextHolder.setContext(securityContext);
-				
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			logger.error("Could not set user authentication in security context", e);
 		}
-		
+
 		filterChain.doFilter(request, response);
-		
+
 	}
 
 	private String parseBearerToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader("Authorization");
-		if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
 			return bearerToken.substring(7);
 		}
 		return null;
 	}
 
-
 }
-

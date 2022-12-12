@@ -12,30 +12,25 @@ import com.example.board.vel01.base.jwt.JwtAuthenticationFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	private JwtAuthenticationFilter jwtAuthenticationFilter;
-	
+
 	@Autowired
 	public WebSecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
 		this.jwtAuthenticationFilter = jwtAuthenticationFilter;
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception{
-		http.cors()
-		.and()
-		.csrf().disable()
-		.httpBasic().disable()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().authorizeRequests().antMatchers("/", "/p/**", "/user/**" , "/post/**", "/comment/**").permitAll()
-		.anyRequest()
-		.authenticated();
-		
+	protected void configure(HttpSecurity http) throws Exception {
+		http.cors().and().csrf().disable().httpBasic().disable().sessionManagement()
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+				.antMatchers("/", "/p/**", "/user/**", "/post/**", "/comment/**").permitAll().anyRequest()
+				.authenticated();
+
 		http.addFilterAfter(jwtAuthenticationFilter, CorsFilter.class);
 	}
-	
+
 }

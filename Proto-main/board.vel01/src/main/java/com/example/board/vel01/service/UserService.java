@@ -29,14 +29,21 @@ public class UserService{
     public User saveUser(User newUser) {
     	
     	if(newUser == null || newUser.getNickName()== null || newUser.getNickName()=="") {
+    		
     		throw new RuntimeException("닉네임을 입력해주세요.");
+    		
     	}
     	final String checkNickName = newUser.getNickName();
+    	
     	if(userRepository.existsByNickName(checkNickName)) {
+    		
     		log.warn("닉네임이 이미 존재합니다.");
+    		
     		throw new RuntimeException("닉네임이 이미 존재합니다.");
     	}
+    	
     	newUser.setJoinDate(new SimpleDateFormat("yyyy/MM/dd").format(new Date()));
+    	
         return userRepository.save(newUser);
     }
 
@@ -55,11 +62,13 @@ public class UserService{
     }
     
     public User getByCredentials(final String nickName, final String pwd, final PasswordEncoder encoder) {
+    	
 		final User originalUser = userRepository.findByNickName(nickName);
 		
-		// matches 메서드를 이용해 패스워드가 같은지 확인
 		if(originalUser != null && encoder.matches(pwd, originalUser.getPwd())) {
+			
 			return originalUser;
+			
 		}
 		return null;
 		
