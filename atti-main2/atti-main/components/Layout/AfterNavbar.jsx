@@ -10,7 +10,7 @@ const AfterNavbar = () => {
 
   const logOut = () =>{
     sessionStorage.setItem("ACCESS_TOKEN",null)
-    setAuth({token:null});
+    setAuth({token:null, nickName:null, joinDate:null});
     Router.push("/")
   }
 

@@ -14,11 +14,9 @@ const BoardList = () => {
   const [limit, setLimit] = useState(20);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
-  let [postNum, setPostNum] = useState(0)
+  let [postNum, setPostNum] = useState(1)
 
-  const increasePostNum = () => {
-    setPostNum(postNum+1)
-  }
+ 
 
   const checkUser = (e) =>{
     if(auth.token === null){
@@ -26,14 +24,27 @@ const BoardList = () => {
       alert("로그인 후 사용 가능합니다.");
     }
   }
+  
+  const viewCountIncrease = async (postId) =>{
+    await axios.put(`http://localhost:3040/post/${postId}`)
+    .then((res) => {
+      console.log("-----------------------------------------");
+      console.log(res);
+      console.log("-----------------------------------------");
+    })
+    .catch(err => {
+      console.log(postId);
+    })
+  }
+
 
   useEffect( () => {
-   axios
-      // .get('https://jsonplaceholder.typicode.com/posts')
+    axios
       .get('http://localhost:3040/post/postList/main')
       .then((response) => {
         setBoards(response.data)
         console.log(response);
+        console.log("보드 사이즈 " + response.data.length);
       }).catch(error => {
         console.error(error)
       })
@@ -57,30 +68,33 @@ const BoardList = () => {
         <table className="table-auto border-collapse w-full">
           <thead>
             <tr className="rounded-lg text-sm font-medium text-gray-700 text-left text-[0.9674rem]">
-              <th className="px-4 py-2 bg-[#F8F8F8]">번호</th>
+              <th className="px-4 py-2 bg-[#F8F8F8] text-center">번호</th>
               <th className="px-4 py-2 bg-[#F8F8F8] text-center">제목</th>
-              <th className="px-4 py-2 bg-[#F8F8F8] text-center">조회수</th>
               <th className="px-4 py-2 bg-[#F8F8F8] text-center">닉네임</th>
               <th className="px-4 py-2 bg-[#F8F8F8] text-center">작성일</th>
+              <th className="px-4 py-2 bg-[#F8F8F8] text-center">조회수</th>
             </tr>
           </thead>
           <tbody className="text-sm font-normal text-gray-700">
             {boards && boards.slice(offset, offset + limit).map(board => (
               <tr key= {board.postId} className="hover:bg-gray-100 border-b border-gray-200 py-10" >
             
-                <td className="px-4 py-4">{board.postId}</td>
 
-                <td className="px-4 py-4" >{postNum}</td>
+                <td className="px-4 py-2" >{postNum++}</td>
 
-                <td className="px-4 py-4 text-center"><Link href="/board-category/BoardDetail" onClick={() => {
+                <td className="px-4 py-2 text-center">
+                  <Link href="/board-category/BoardDetail" onClick={() => {
                   SetCurBoard(board.postId);
-                }} className="text-gray-700">{board.title}</Link></td>
+                  viewCountIncrease(board.postId)
+                }} className="text-gray-700">{board.title}
+                </Link>
+                </td>
 
-                <td className="px-4 py-4 text-left">{board.content}</td>
+                <td className="px-4 py-2 text-left">{board.nickName}</td>
 
-                <td className="px-4 py-4 text-left">{board.nickName}</td>
+                <td className="px-4 py-2 text-left">{board.createdDate}</td>
 
-                <td className="px-4 py-4 text-left">{board.createdDate}</td>
+                <td className="px-4 py-2 text-left">{board.viewCount}</td>
               
               </tr>
             ))}

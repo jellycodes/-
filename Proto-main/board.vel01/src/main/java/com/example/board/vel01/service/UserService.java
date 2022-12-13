@@ -9,10 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RequiredArgsConstructor
 @Service
@@ -72,5 +75,25 @@ public class UserService{
 		}
 		return null;
 		
+	}
+    
+    public boolean checkNickName(HttpServletRequest request, String nickName) {
+    	String token = parseBearerToken(request);
+    	String psNickName = jwtTokenProvider.validateAndGetUserNickName(token);
+    	System.out.println(psNickName);
+    	if(psNickName.equals(nickName)) {
+    	return true;
+    	}else
+    	{
+    		return false;
+    	}
+    }
+    
+    private String parseBearerToken(HttpServletRequest request) {
+		String bearerToken = request.getHeader("Authorization");
+		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
+		}
+		return null;
 	}
 }

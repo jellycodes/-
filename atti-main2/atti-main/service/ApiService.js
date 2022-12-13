@@ -27,11 +27,13 @@ export function call(api, method, request) {
         if (response.status === 200) {
             return response.json();
             // console.log(response);
-        } else if (response.status === 403) {
+        } 
+        else if (response.status === 400) {
             // window.location.href = "/"; // redirect
-            // alert("잘못된 요청입니다. 글 작성 시 공백은 불가합니다.")
+            alert("잘못된 요청입니다.")
             console.log(response);
-        } else {
+        } 
+        else {
             // Promise.reject(response);
             new Error(response);
         }

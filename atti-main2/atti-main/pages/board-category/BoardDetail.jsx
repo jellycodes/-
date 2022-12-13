@@ -5,13 +5,20 @@ import curBoardAtom from '../atoms/curBoardAtom'
 
 const BoardDetail = () => {
 
-    const [postId, setPostId] = useState("1")
+    const [postId, setPostId] = useState("")
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [curBoard, setCurBoard] = useAtom(curBoardAtom);
-    
+    const [viewCount, setViewCount] = useState("0")
     
     const handleDetail = () => {
+
+        
+        const req = {
+            postId : curBoard,
+            title: title,
+            content: content
+        }
 
         console.log(curBoard);
         const options = {
@@ -19,10 +26,9 @@ const BoardDetail = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(req)
         };
-
-        fetch('http://localhost:3040/post/selectPost')
+        fetch('http://localhost:3040/post/selectPost', options)
             .then(response => response.json())
             // .then(data => console.log(data))
             .catch(error => console.error('실패', error));
@@ -36,7 +42,8 @@ const BoardDetail = () => {
             .then(response => {console.log(response)
                 setPostId(response.postId);
                 setTitle(response.title)
-                setContent(response.content)})
+                setContent(response.content)
+                setViewCount(response.viewCount)})
             .catch(error => console.error(error))
     }, [])
 
@@ -57,6 +64,9 @@ const BoardDetail = () => {
                                     </tr>
                                     <tr className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2">
                                         <textarea type="text" readOnly value={content}  onChange={event => setContent(event.target.value)} className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2" />
+                                    </tr>
+                                    <tr className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2">
+                                        <textarea type="text" readOnly value={viewCount}  onChange={event => setContent(event.target.value)} className="px-6 py-4 text-sm font-medium text-left text-gray-900 border-2" />
                                     </tr>
                                 </thead>
                             </table>

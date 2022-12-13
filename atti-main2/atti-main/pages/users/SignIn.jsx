@@ -3,6 +3,7 @@ import { useAtom } from 'jotai'
 import axios from 'axios'
 import authAtom from '../../public/stores/authAtom'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const SignIn = () => {
     const [nickName, setNickName] = useState('')
@@ -21,28 +22,27 @@ const SignIn = () => {
         console.log(nickName)
     }
 
-    const login = async (event) => {
-        event.preventDefault();
+    const login = (event) => {
+        // event.preventDefault();
 
         const req = { nickName, pwd };
 
-        await axios.post("http://localhost:3040/user/sign-in", req)
+        axios.post("http://localhost:3040/user/sign-in", req)
             .then((res) => {
                 console.log("login() success");
                 console.log(res);
                 if (res.data.token) {
                     sessionStorage.setItem("ACCESS_TOKEN", res.data.token)
-                    setAuth({token: sessionStorage.getItem("ACCESS_TOKEN")});
+                    setAuth({token: sessionStorage.getItem("ACCESS_TOKEN"), nickName: res.data.nickName, joinDate: res.data.joinDate });
                 };
                 alert(res.data.nickName + "님 환영합니다.");
                 router.push("/");
-
             })
             .catch((err) => {
                 console.log("login() error");
                 console.log(err);
 
-                alert(err.response.data.message);
+                alert(err);
 
                const res = err.response;
                 if (res.status == 500 || res.status == 400) {

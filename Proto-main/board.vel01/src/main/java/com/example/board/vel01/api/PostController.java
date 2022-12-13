@@ -3,6 +3,7 @@ package com.example.board.vel01.api;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.catalina.connector.Response;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.board.vel01.domain.Post;
@@ -25,6 +27,7 @@ import com.example.board.vel01.domain.User;
 import com.example.board.vel01.repository.PostRepository;
 import com.example.board.vel01.repository.UserRepository;
 import com.example.board.vel01.service.PostService;
+import com.example.board.vel01.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +43,8 @@ public class PostController {
 	private final PostRepository postRepository;
 
 	private final PostService postService;
+	
+	private final UserService userService;
 
 	// 게시글 작성 = C
 	@PostMapping("/writePost")
@@ -47,19 +52,18 @@ public class PostController {
 
 		if (req.getTitle().equals("")) {
 			
-			return ResponseEntity.badRequest().body("게시글 제목을 작성해주세요");
+			Post.Response res = Post.Response.builder().resMessage("제목을 입력해주세요.").build();
+			
+			return ResponseEntity.badRequest().body(res);
 			
 		} else if (req.getContent().equals("")) {
 			
-			return ResponseEntity.badRequest().body("게시글 내용을 작성해주세요.");
+			Post.Response res = Post.Response.builder().resMessage("내용을 입력해주세요.").build();
+			
+			return ResponseEntity.badRequest().body(res);
 			
 		}
 
-		if (!userRepository.existsByNickName(nickName)) {
-			
-			return ResponseEntity.badRequest().body(Post.Response.builder().resMessage("로그인 후 진행해주세요").build());
-			
-		}
 
 		try {
 			Post postEntity = Post.Request.toEntity(req);
@@ -90,7 +94,7 @@ public class PostController {
 		Post.Response dto = Post.Response.toResponse(findPost);
 
 		Post.Response res = Post.Response.builder().postId(dto.getPostId()).nickName(dto.getNickName())
-				.title(dto.getTitle()).content(dto.getContent()).createdDate(dto.getCreatedDate())
+				.title(dto.getTitle()).content(dto.getContent()).viewCount(dto.getViewCount()).createdDate(dto.getCreatedDate())
 				.comments(dto.getComments()).build();
 
 		return ResponseEntity.ok().body(res);
@@ -118,15 +122,19 @@ public class PostController {
 
 	// 게시글 수정 = U // 12월 9일날까지 작업해볼것. 세션 유지 후에 테스트 해봐야 함.
 	@PutMapping
-	public ResponseEntity<?> updatePost(@AuthenticationPrincipal String nickName, @Valid @RequestBody Post.Request req) {
+	public ResponseEntity<?> updatePost(HttpServletRequest request, @AuthenticationPrincipal String nickName, @Valid @RequestBody Post.Request req) {
 
 		Post searchPost = postRepository.findByPostId(req.getPostId());
 		
-		log.warn("게시글 작성 유저 닉네임: " + searchPost.getNickName());
 		
-		log.warn("로그인된 유저 닉네임: " + nickName);
 		
-		if (searchPost.getNickName().equals(nickName)) {
+		System.out.println("게시글 작성 유저 닉네임: " + searchPost.getNickName());
+		
+		System.out.println("로그인된 유저 닉네임: " + nickName);
+		
+		
+		
+		if (userService.checkNickName(request, searchPost.getNickName())) {
 			
 			req.setNickName(nickName);
 			
@@ -138,7 +146,7 @@ public class PostController {
 			
 		} else {
 			
-			return ResponseEntity.badRequest().body("게시글 작성자만 해당 요청을 할 수 있습니다.");
+			return ResponseEntity.badRequest().body(Post.Response.builder().resMessage("해당 요청은 작성자만 가능합니다.").build());
 			
 		}
 	}
@@ -146,7 +154,7 @@ public class PostController {
 	// 게시글 삭제 = D
 	@Transactional
 	@DeleteMapping
-	public ResponseEntity<?> deletePost(@AuthenticationPrincipal String nickName, @RequestBody Post.Request req) {
+	public ResponseEntity<?> deletePost(HttpServletRequest request ,@AuthenticationPrincipal String nickName, @RequestBody Post.Request req) {
 
 		Post searchPost = postRepository.findByPostId(req.getPostId());
 		
@@ -154,7 +162,7 @@ public class PostController {
 		
 		log.warn("로그인된 유저 닉네임: " + nickName);
 		
-		if (searchPost.getNickName().equals(nickName)) {
+		if (userService.checkNickName(request, searchPost.getNickName())) {
 			try {
 				List<Post> postEntities = postService.delete(req.getPostId());
 
@@ -172,9 +180,26 @@ public class PostController {
 			}
 		} else {
 			
-			return ResponseEntity.badRequest().body("게시글 작성자만 해당 요청을 할 수 있습니다.");
+			return ResponseEntity.badRequest().body(Post.Response.builder().resMessage("해당 요청은 작성자만 가능합니다.").build());
 			
 		}
+	}
+	
+	@PutMapping("/{postId}")
+	public ResponseEntity<?> increaseViewCount(@PathVariable Long postId){
+		
+		Post findPost = postRepository.findByPostId(postId);
+		
+		int curViewCount = findPost.getViewCount();
+		
+		findPost.setViewCount(++curViewCount);
+		
+		postRepository.save(findPost);
+		
+		
+		Post.Response res = Post.Response.toResponse(findPost);
+		res.setViewCount(++curViewCount);
+		return ResponseEntity.ok().body(res);
 	}
 
 }

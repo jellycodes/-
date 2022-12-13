@@ -6,9 +6,10 @@ import { useAtom } from 'jotai';
 
 function MyApp({ Component, pageProps }) {
   const [auth, setAuth] = useAtom(authAtom);
+
   return(
   <>
-    {auth.token == null? <Navbar/> : <AfterNavbar/>}
+    { auth.token === null? <Navbar/> : <AfterNavbar/>}
     <Component {...pageProps} />
   </>
   )

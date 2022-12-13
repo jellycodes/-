@@ -7,7 +7,9 @@ import authAtom from '../../public/stores/authAtom'
 const Myinfo = () => {
 
   const [auth, setAuth] = useAtom(authAtom)
-  console.log(auth.token);
+//   console.log(auth.token);
+  console.log(auth.nickName);
+  console.log(auth.joinDate);
 
   return (
     <>
@@ -18,11 +20,11 @@ const Myinfo = () => {
                             <table className='mx-auto my-20 border-2 border-separate rounded-lg shadow-2xl border-spacing-6 border-neutral-300'>
                                 <thead>
                                     <tr className="px-6 py-2 text-xs text-gray-900">
-                                    <input type="text" readOnly value="닉네임"  className="px-6 py-4 text-center font-medium text-left text-gray-900 border-2" />
+                                    <input type="text" readOnly value={auth.nickName}  className="px-6 py-4 text-center font-medium text-left text-gray-900 border-2" />
                                     </tr>
         
                                     <tr className="px-40 text-xs text-gray-900">
-                                        <input type="text" readOnly value="가입날짜"   className="px-6 py-4 text-center font-medium text-left text-gray-900 border-2" />
+                                        <input type="text" readOnly value={auth.joinDate}  className="px-6 py-4 text-center font-medium text-left text-gray-900 border-2" />
                                     </tr>
                                     <tr className="px-40 text-xs text-gray-900">
                                         <textarea type="text" readOnly value="기타 정보"   className="px-6 py-4 text-center font-medium text-left text-gray-900 border-2" />

@@ -37,7 +37,8 @@ public class PostService {
 		
 		return postRepository.findByNickName(postEntity.getNickName());// 한명의 정보만 보내줌
 	};
-
+	
+	
 	private void validation(final Post postEntity) {
 		
 		if (postEntity == null) {

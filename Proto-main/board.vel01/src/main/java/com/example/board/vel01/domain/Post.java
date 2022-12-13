@@ -16,6 +16,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 
 @Builder
@@ -25,6 +27,7 @@ import org.hibernate.annotations.GenericGenerator;
 @AllArgsConstructor
 @Entity
 @Table(name = "post")
+@DynamicUpdate
 public class Post {
 
 	@Id
@@ -43,13 +46,14 @@ public class Post {
 	private String content;
 
 	@Column
-	private Long viewCount;
+	private int viewCount;
 
 	@Column
 	private String createdDate;
 
 	@Column
 	private String err;
+	
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_Id")
@@ -83,7 +87,7 @@ public class Post {
 		@NotBlank(message = "게시글 내용은 공백 금지")
 		private String content;
 
-		private Long viewCount;
+		private int viewCount;
 
 		public static Post toEntity(Post.Request req) {
 			return Post.builder().postId(req.getPostId()).title(req.getTitle()).content(req.getContent())
@@ -105,15 +109,16 @@ public class Post {
 		private String content;
 		private String createdDate;
 		private List<Comment.Response> comments;
-		private Long viewCount;
+		private int viewCount;
 		private String resMessage;
 
 		public static Post.Response toResponse(Post postEntity) {
 
 			return Post.Response.builder().postId(postEntity.getPostId()).nickName(postEntity.getNickName())
 					.title(postEntity.getTitle()).content(postEntity.getContent())
+					.viewCount(postEntity.getViewCount())
 					.comments(Comment.Response.toResponseList(postEntity.getComments()))
-					.createdDate(postEntity.getCreatedDate()).viewCount(postEntity.getViewCount()).build();
+					.createdDate(postEntity.getCreatedDate()).build();
 		}
 
 		public static List<Post.Response> toResponseList(List<Post> posts) {
