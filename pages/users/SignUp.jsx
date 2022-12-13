@@ -89,7 +89,7 @@ const SignUp = () => {
 					console.log(res.data.nickName);
 
 					alert(res.data.nickName + "님 아띠 상담소에 가입하신 것을 환영합니다!");
-					router.push("/user/SignIn");
+					router.push("/users/SignIn");
 
 				})
 				.catch((err) => {
@@ -136,8 +136,8 @@ const SignUp = () => {
 							className="w-full pb-1 mt-4 placeholder-gray-400 border-b focus:placeholder-purple-300 border-sky-400 focus:outline-none hover:border-purple-300 "
 							placeholder="Password "
 							onChange={changePwd}
-							// focus:border-purple-300 밑줄 클릭 시 색 변화
-							// focus:outline-purple-300 클릭 시 네모칸의 컬러
+						// focus:border-purple-300 밑줄 클릭 시 색 변화
+						// focus:outline-purple-300 클릭 시 네모칸의 컬러
 						/>
 
 						<input

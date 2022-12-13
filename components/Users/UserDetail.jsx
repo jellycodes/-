@@ -10,9 +10,9 @@ const UserDetail = () => {
             </div>
             <div className='m-2 flex justify-end'>
                 <div className='pr-2'>
-                    <PencilIcon className='h-5 w-5 text-gray-400'/>
+                    <PencilIcon className='h-5 w-5 text-gray-400' />
                 </div>
-                <UserMinusIcon className='h-5 w-5 text-red-400'/>
+                <UserMinusIcon className='h-5 w-5 text-red-400' />
             </div>
             <div className='border-t border-gray-200'>
                 <dl>

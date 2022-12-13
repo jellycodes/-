@@ -12,11 +12,11 @@ const UserListPage = () => {
 
   return (
     users.map(user => <User
-                          key={user.id}
-                          id={user.id}
-                          name={user.name}
-                          gender={user.gender}
-                          />)
+      key={user.id}
+      id={user.id}
+      name={user.name}
+      gender={user.gender}
+    />)
   )
 }
 

@@ -32,6 +32,7 @@ const SignIn = () => {
                 console.log(res);
                 if (res.data.token) {
                     sessionStorage.setItem("ACCESS_TOKEN", res.data.token)
+                    setAuth({ token: sessionStorage.getItem("ACCESS_TOKEN") });
                 };
                 alert(res.data.nickName + "님 환영합니다.");
                 router.push("/");
@@ -43,7 +44,7 @@ const SignIn = () => {
 
                 alert(err.response.data.message);
 
-               const res = err.response;
+                const res = err.response;
                 if (res.status == 500 || res.status == 400) {
                     alert("닉네임 및 패스워드를 다시 확인해주세요.");
                 }
@@ -105,7 +106,7 @@ const SignIn = () => {
                         <input className="w-full py-3 pl-2 bg-transparent border-0 placeholder-slate-400 focus:placeholder-transparent md:pl-6 focus:outline-none" type="text" name="pwd" placeholder="비밀번호를 입력하세요" onChange={ChangePwd} required />
                     </div>
                 </div>
-                
+
                 <div className='pt-[13px]'>
                     <button className='w-full p-2 text-lg font-semibold text-white rounded-full md:pl-8 border-y-4 focus:outline-none bg-gradient-to-r from-sky-600 to-teal-300'
                         type="submit"
