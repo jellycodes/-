@@ -54,7 +54,7 @@ https://documenter.getpostman.com/view/23568514/2s8YzTUNCC#662ef6bb-6a8d-4f4c-99
 
 <h2>UML</h2>
 <div align="center">
-<img src="https://user-images.githubusercontent.com/107653158/207484654-dc8c85dd-e976-4962-9cfd-edcc9b7203a8.png" width=100% height=100%/>
+<img src="https://user-images.githubusercontent.com/107653158/207485059-58213b48-ac90-4cc7-889d-f1cafc4d6ea1.png" width=100% height=100%/>
 </div>
 
 
