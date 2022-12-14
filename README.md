@@ -60,6 +60,7 @@ https://documenter.getpostman.com/view/23568514/2s8YzTUNCC
 
 
 <h2>Stack</h2><br>
+
 <li>REACT - 18.2.0</li>
 <li>NEXT.JS - 13.0.5</li>
 <li>JAVA - 11</li>
