@@ -32,7 +32,7 @@ yarn dev
 
 <div>
 <h2>Project Development Period</h2>
- 2022-11-21 ~ 2022-12-14
+ 2022-11-30 ~ 2022-12-14
 </div>
 <div>
 <h2>Introduce team members</h2>
