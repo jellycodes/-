@@ -1,4 +1,4 @@
-# atti 아띠의 상담소
+# atti 아띠의 상담
 
 <div>
  <h2>Getting Started</h2>
