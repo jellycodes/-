@@ -70,7 +70,7 @@ https://documenter.getpostman.com/view/23568514/2s8YzTUNCC
 <div>
 <p>
 <h3>Front</h3>
-<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=white">
+<img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=React&logoColor=black">
 <img src="https://img.shields.io/badge/Tailwind CSS-06B6D4?style=for-the-badge&logo=Tailwind CSS&logoColor=black">
 <img src="https://img.shields.io/badge/next.js-4FC08D?style=for-the-badge&logo=next.js&logoColor=white">
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white">
