@@ -49,7 +49,7 @@ yarn dev
 
 <div>
 <h2>API Docs(with POSTMAN)</h2>
-https://documenter.getpostman.com/view/23568514/2s8YzTUNCC#662ef6bb-6a8d-4f4c-99f0-72b0bab566a6
+https://documenter.getpostman.com/view/23568514/2s8YzTUNCC
 </div>
 
 <h2>UML</h2>
